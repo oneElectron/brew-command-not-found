@@ -1,0 +1,11 @@
+[package]
+name = "brew_which_formula"
+version = "1.0.0"
+edition = "2021"
+
+[profile.release]
+lto = "fat"
+overflow-checks = true
+panic = "abort"
+opt-level = 2
+strip = true
