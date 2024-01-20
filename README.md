@@ -4,7 +4,12 @@
 ## Usage
 This is kind of a hack currently, and only serves as a proof of concept.
 
-First, use cargo to install:
+You must have the official homebrew-command-not-found tapped:
+```
+brew tap homebrew/command-not-found
+```
+
+Use cargo to install:
 ```bash
 cargo install --git https://github.com/oneElectron/brew-command-not-found
 ```
