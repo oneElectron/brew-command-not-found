@@ -1,10 +1,12 @@
 use std::path::PathBuf;
 
 #[cfg(target_arch = "x86_64")]
-static DEFAULT_PATH: &str = "/usr/homebrew/Library/Taps/homebrew/homebrew-command-not-found/executables.txt";
+static DEFAULT_PATH: &str =
+    "/usr/homebrew/Library/Taps/homebrew/homebrew-command-not-found/executables.txt";
 
 #[cfg(target_arch = "aarch64")]
-static DEFAULT_PATH: &str = "/opt/homebrew/Library/Taps/homebrew/homebrew-command-not-found/executables.txt";
+static DEFAULT_PATH: &str =
+    "/opt/homebrew/Library/Taps/homebrew/homebrew-command-not-found/executables.txt";
 
 /*
  *
@@ -18,17 +20,23 @@ pub(crate) fn search_parallel() -> Option<PathBuf> {
 
     if let Some(p) = default_path.join().unwrap() {
         let end_time = std::time::Instant::now();
-        println!("Time taken default: {} micros", (end_time - start_time).as_micros());
+        println!(
+            "Time taken default: {} micros",
+            (end_time - start_time).as_micros()
+        );
         return Some(p);
     }
 
     if let Some(p) = brew_path.join().unwrap() {
         let end_time = std::time::Instant::now();
-        println!("Time taken brew: {} micros", (end_time - start_time).as_micros());
+        println!(
+            "Time taken brew: {} micros",
+            (end_time - start_time).as_micros()
+        );
         return Some(p);
     }
 
-    return None;
+    None
 }
 */
 
@@ -47,34 +55,36 @@ pub(crate) fn search() -> Option<PathBuf> {
 }
 
 pub(crate) fn ask_brew() -> Option<PathBuf> {
-    let output = std::process::Command::new("brew").arg("--repository").output();
-        if output.is_err() {
-            return None;
-        }
-
-        let repo_path = std::string::String::from_utf8(output.unwrap().stdout);
-        if repo_path.is_err() {
-            return None;
-        }
-
-        let mut repo_path = repo_path.unwrap().trim().to_string();
-        repo_path.push_str("/Library/Taps/homebrew/homebrew-command-not-found/executables.txt");
-
-        let path = PathBuf::from(repo_path);
-        
-        if path.exists() {
-            return Some(path);
-        }
-
+    let output = std::process::Command::new("brew")
+        .arg("--repository")
+        .output();
+    if output.is_err() {
         return None;
+    }
+
+    let repo_path = std::string::String::from_utf8(output.unwrap().stdout);
+    if repo_path.is_err() {
+        return None;
+    }
+
+    let mut repo_path = repo_path.unwrap().trim().to_string();
+    repo_path.push_str("/Library/Taps/homebrew/homebrew-command-not-found/executables.txt");
+
+    let path = PathBuf::from(repo_path);
+
+    if path.exists() {
+        return Some(path);
+    }
+
+    None
 }
 
 pub(crate) fn ask_default_path() -> Option<PathBuf> {
     let path = PathBuf::from(DEFAULT_PATH);
-        
-        if path.exists() {
-            return Some(path);
-        }
 
-        return None;
+    if path.exists() {
+        return Some(path);
+    }
+
+    None
 }

@@ -10,7 +10,7 @@ fn main() {
     let file_path = search::search();
     if file_path.is_none() {
         let path = search::ask_brew().unwrap_or(std::path::PathBuf::from("/opt/homebrew")); // not performance critical
-        let path = path.display(); 
+        let path = path.display();
 
         println!("{RED}Error:{RESET} No such file or directory - {path}/Library/Taps/homebrew/homebrew-command-not-found/executables.txt");
         std::process::exit(1);
@@ -39,7 +39,10 @@ fn main() {
     if args.explain {
         for target in args.formulae.iter().enumerate() {
             if count[target.0] == 1 {
-                println!("The program '{}' is currently not installed. You can install it by typing:", target.1);
+                println!(
+                    "The program '{}' is currently not installed. You can install it by typing:",
+                    target.1
+                );
                 for formula in &results {
                     if formula.1 == target.0 {
                         println!("  brew install {}", formula.0);
@@ -48,7 +51,10 @@ fn main() {
             }
 
             if count[target.0] > 1 {
-                println!("The program '{}' can be found in the following formulae:", target.1);
+                println!(
+                    "The program '{}' can be found in the following formulae:",
+                    target.1
+                );
 
                 for formula in &results {
                     if formula.1 == target.0 {
@@ -72,7 +78,11 @@ fn parse_line<'a>(line: &'a str, targets: &'a [&str]) -> Option<(&'a str, usize)
     if f == line.len() {
         return None;
     }
-    let mut b = 1 + f + line[f+1..].find(char::is_whitespace).unwrap_or_else(|| line[f+1..].len());
+    let mut b = 1
+        + f
+        + line[f + 1..]
+            .find(char::is_whitespace)
+            .unwrap_or_else(|| line[f + 1..].len());
 
     loop {
         for target in targets.iter().enumerate() {
@@ -82,7 +92,11 @@ fn parse_line<'a>(line: &'a str, targets: &'a [&str]) -> Option<(&'a str, usize)
         }
 
         f = 1 + f + line[f + 1..].find(char::is_whitespace)? + 1;
-        b = 1 + b + line[b + 1..].find(char::is_whitespace).unwrap_or_else(|| line[b + 1..].len());
+        b = 1
+            + b
+            + line[b + 1..]
+                .find(char::is_whitespace)
+                .unwrap_or_else(|| line[b + 1..].len());
     }
 }
 
@@ -107,25 +121,15 @@ fn parse_options(args: &[String]) -> Arguments<'_> {
         if *arg == "-h" || *arg == "--help" {
             print_help();
             std::process::exit(0);
-        }
-
-        else if *arg == "--explain" {
+        } else if *arg == "--explain" {
             arguments.explain = true;
-        }
-
-        else if *arg == "-q" || *arg == "--quiet" {
+        } else if *arg == "-q" || *arg == "--quiet" {
             arguments.quiet = true;
-        }
-
-        else if *arg == "-d" || *arg == "--debug" {
+        } else if *arg == "-d" || *arg == "--debug" {
             arguments.debug = true;
-        }
-
-        else if *arg == "-v" || *arg == "--verbose" {
+        } else if *arg == "-v" || *arg == "--verbose" {
             arguments.verbose = true;
-        }
-
-        else if !arg.starts_with('-') {
+        } else if !arg.starts_with('-') {
             arguments.formulae.push(arg);
         }
     }

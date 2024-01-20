@@ -2,7 +2,7 @@
 
 
 ## Usage
-This is kind of a hack currently, and only serves as a proof of concept.
+This is kind of a hack currently and only serves as a proof of concept.
 
 You must have the official homebrew-command-not-found tapped:
 ```
