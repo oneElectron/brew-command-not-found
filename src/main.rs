@@ -134,7 +134,7 @@ fn parse_options(args: &[String]) -> Arguments<'_> {
 }
 
 fn print_help() {
-    println!("{BOLD}Usage: brew which-formula{RESET} [{BOLD}--explain{RESET}] {ULINE}command{RESET} [...]");
+    println!("{BOLD}Usage: brew_which_formula{RESET} [{BOLD}--explain{RESET}] {ULINE}command{RESET} [...]");
     println!();
     println!("Prints the formula(e) which provides the given command.");
     println!();
